@@ -1,0 +1,39 @@
+{
+  "articles": [
+    {
+      "slug": "vallum-communis-ceno-17773",
+      "title": "vallum communis ceno",
+      "description": "anser capitulus tenax quisquam ustulo",
+      "body": "omnis uterque canis tabernus desino absorbeo deleniti ara recusandae amiculum",
+      "tagList": [],
+      "createdAt": "2025-01-13T10:21:23.130Z",
+      "updatedAt": "2025-01-13T10:21:23.130Z",
+      "favorited": false,
+      "favoritesCount": 10,
+      "author": {
+        "username": "TopiTestaaja",
+        "bio": null,
+        "image": "https://conduit-api.bondaracademy.com/images/smiley-cyrus.jpeg",
+        "following": false
+      }
+    },
+    {
+      "slug": "adamo-ager-veritatis-17773",
+      "title": "adamo ager veritatis",
+      "description": "uberrime aro comes animadverto totus",
+      "body": "deduco thymum tres denuo antiquus saepe ara certus cubitum atque",
+      "tagList": [],
+      "createdAt": "2025-01-13T10:16:34.786Z",
+      "updatedAt": "2025-01-13T10:16:34.786Z",
+      "favorited": false,
+      "favoritesCount": 0,
+      "author": {
+        "username": "TopiTestaaja",
+        "bio": null,
+        "image": "https://conduit-api.bondaracademy.com/images/smiley-cyrus.jpeg",
+        "following": false
+      }
+    }
+  ],
+  "articlesCount": 2
+}

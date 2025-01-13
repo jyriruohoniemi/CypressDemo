@@ -6,7 +6,7 @@
 
 describe("First test suite", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:4200/");
+    cy.visit("/");
     cy.get("ngx-footer").should("have.text", "Created with ♥ by Akveo 2019");
   });
 
@@ -281,7 +281,7 @@ describe("First test suite", () => {
       });
     });
   });
-  it.only("Lesson 9: Tooltips and Overlays", () => {
+  it("Lesson 9: Tooltips and Overlays", () => {
     cy.contains("Modal & Overlay").click();
     cy.contains("Tooltip").click();
 
@@ -291,7 +291,7 @@ describe("First test suite", () => {
     // Alert overlay
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
-    cy.get(".nb-trash").click();
+    cy.get(".nb-trash").first().click();
     cy.on("window:confirm", () => false);
   });
 });

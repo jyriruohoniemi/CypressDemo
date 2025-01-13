@@ -35,3 +35,17 @@
 //     }
 //   }
 // }
+Cypress.Commands.add("loginToApplication", () => {
+    cy.visit("https://conduit.bondaracademy.com/login")
+    cy.get('[placeholder="Email"]').type('topitestaaja@mail.com')
+    cy.get('[placeholder="Password"]').type('topitestaa')
+    cy.get('form').submit()
+    cy.wait(1500)
+})
+
+Cypress.Commands.add("logoutFromApplication", () => {
+    cy.get('.nav-link').contains('Settings').click({force: true})
+    cy.wait(1500)
+    cy.get('button').contains('Or click here to logout.').click({force: true})
+    cy.get('.nav-link').contains('Sign in').should('be.visible')
+})

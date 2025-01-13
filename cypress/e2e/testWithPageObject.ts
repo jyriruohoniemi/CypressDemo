@@ -1,11 +1,10 @@
-import { on } from "process";
 import { onDatePickerPage } from "../support/page_objects/datePickerPage";
 import { onFormLayoutPage } from "../support/page_objects/formLayoutPage";
 import { navigateTo } from "../support/page_objects/navigation";
 
 describe("Test with Page Object", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:4200/");
+    cy.visit("/");
     cy.get("ngx-footer").should("have.text", "Created with ♥ by Akveo 2019");
   });
 
