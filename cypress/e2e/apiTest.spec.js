@@ -1,13 +1,13 @@
 import { faker } from "@faker-js/faker";
 
-describe("API Test with Cypress", () => {
+describe("API Testing with Cypress", () => {
   beforeEach("login to app", () => {
     cy.loginToApplication();
   }),
     afterEach("logout from app", () => {
       cy.logoutFromApplication();
     }),
-    it("New Atricle Creation", () => {
+    it("New Article Creation", () => {
       // We use cy.intercept() to intercept the POST request to the /api/articles endpoint.
       cy.intercept("POST", "**/api/articles").as("postArticle");
       const fakeTitle = faker.lorem.words(3);
@@ -37,7 +37,9 @@ describe("API Test with Cypress", () => {
       cy.get("h1").should("contain", fakeTitle);
       cy.get("p").should("contain", fakeArticle);
       cy.get(".nav-link").contains("Home").click();
-      cy.get(".article-preview").first().should("contain", fakeSummary);
+      cy.get(".article-preview").first().should("contain", fakeSummary).click();
+      cy.get(".article-actions").contains("Delete Article").click();
+      cy.get(".article-preview").first().should("not.contain", fakeSummary);
     });
   it("Intercepting and Mocking API Calls", () => {
     cy.intercept("GET", "**/api/tags", {
@@ -53,7 +55,7 @@ describe("API Test with Cypress", () => {
       .and("contain", "testing")
       .and("contain", "automation");
   });
-  it.only("Intercepting and Mocking API Calls 2", () => {
+  it("Intercepting and Mocking API Calls 2", () => {
     // Intercept feed request
     cy.intercept("GET", "**/api/articles/feed*", {
       fixture: "articles.json",
@@ -72,7 +74,6 @@ describe("API Test with Cypress", () => {
     // The API response is mocked to have 10 favorites when it actually has 0
     cy.get("app-favorite-button").eq(0).click().should("contain", "11");
 
-    // Move intercept before the action
     cy.intercept("DELETE", "**/api/articles/*/favorite").as("deleteFavorite");
     cy.get(".article-preview").first().find("app-favorite-button").click();
 
@@ -86,5 +87,47 @@ describe("API Test with Cypress", () => {
       .should("eq", 0);
 
     cy.get("app-favorite-button").eq(0).click().should("contain", "10");
+  });
+
+  it("Making API calls with cy.request", () => {
+    const fakeTitle = faker.lorem.words(3);
+    // Define credentials
+    const credentials = {
+      user: {
+        email: "topitestaaja@mail.com",
+        password: "topitestaa",
+      },
+    };
+    cy.request(
+      "POST",
+      "https://conduit-api.bondaracademy.com/api/users/login",
+      credentials
+    )
+      .its("body")
+      .then((response) => {
+        const token = response.user.token;
+
+        cy.request({
+          method: "POST",
+          url: "https://conduit-api.bondaracademy.com/api/articles/",
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+          body: {
+            article: {
+              title: fakeTitle,
+              description: "Cypress API testing description",
+              body: "Cypress API testing body",
+            },
+          },
+        });
+        cy.reload();
+
+        cy.get(".article-preview").first().should("contain", fakeTitle).click();
+        cy.get("h1").should("contain", fakeTitle);
+        cy.get("p").should("contain", "Cypress API testing body");
+        cy.get(".article-actions").contains("Delete Article").click();
+        cy.get(".article-preview").should("not.contain", fakeTitle);
+      });
   });
 });
