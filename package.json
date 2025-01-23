@@ -10,8 +10,8 @@
     "url": "https://github.com/akveo/ngx-admin/issues"
   },
   "scripts": {
-    "cy:run": "cypress run",
-    "cy:report": "cypress run --reporter cypress-mochawesome-reporter",
+    "cy:run": "cypress run --spec \"cypress/e2e/{apiTest.spec.js,firstTest.spec.ts,testWithPageObject.ts}\"",
+    "cy:report": "cypress run --spec \"cypress/e2e/{apiTest.spec.js,firstTest.spec.ts,testWithPageObject.ts}\" --reporter cypress-mochawesome-reporter",
     "start": "ng serve",
     "test:e2e": "start-server-and-test start http://localhost:4200 cy:report",
     "ng": "ng",

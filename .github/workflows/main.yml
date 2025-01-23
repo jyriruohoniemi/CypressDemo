@@ -29,7 +29,8 @@ jobs:
           npm install start-server-and-test --save-dev --legacy-peer-deps
 
       - name: Run Cypress tests
-        run: npm run test:e2e
+        run: |
+          npm start & npx wait-on http://localhost:4200 && cypress run --spec "cypress/e2e/{apiTest.spec.js,firstTest.spec.ts,testWithPageObject.ts}" --reporter cypress-mochawesome-reporter
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
 
