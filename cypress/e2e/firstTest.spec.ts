@@ -294,7 +294,7 @@ describe("Default Test Suite", () => {
     // Alert overlay
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
-    cy.get(".nb-trash").click();
+    cy.get("tbody tr").first().find(".nb-trash").click();
     cy.on("window:confirm", () => false);
   });
 });
