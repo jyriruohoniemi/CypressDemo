@@ -29,18 +29,20 @@ jobs:
           npm install -g cypress
           npm install start-server-and-test --save-dev --legacy-peer-deps
 
-      - name: Run Cypress tests
-        run: |
-          npm start & npx wait-on http://localhost:4200 && npx cypress run --spec "cypress/e2e/{apiTest.spec.js,firstTest.spec.ts,testWithPageObject.ts}" --reporter cypress-mochawesome-reporter
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
+          - name: Run Cypress tests
+          run: |
+            npm start & npx wait-on http://localhost:4200 && npx cypress run --spec "cypress/e2e/{apiTest.spec.js,firstTest.spec.ts,testWithPageObject.ts}" --reporter cypress-mochawesome-reporter
+          env:
+            NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-reports
-          path: cypress/reports
+          path: |
+            cypress/reports/index.html
+            cypress/reports/videos/
           retention-days: 30
 
       - name: Download Reports
@@ -48,14 +50,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: cypress-reports
-          path: cypress/reports
+          path: public
 
       - name: Deploy to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./cypress/reports/html
+          publish_dir: ./public
           keep_files: false
-          allow_empty_commit: true
           force_orphan: true
