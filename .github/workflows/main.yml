@@ -15,7 +15,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -24,20 +23,25 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install Cypress
+        run: npm install cypress@12.17.4 --save-dev --legacy-peer-deps
+
+      - name: Install additional dependencies
         run: |
-          npm install --legacy-peer-deps --force
-          npm install cypress@12.17.4 --save-dev --legacy-peer-deps
           npm install start-server-and-test --save-dev --legacy-peer-deps
           npm install @faker-js/faker@7.6.0 --save-dev --legacy-peer-deps
 
-          - name: Run Cypress tests
-          run: |
-            mkdir -p cypress/reports
-            npm run test:e2e
-          env:
-            NODE_OPTIONS: "--max-old-space-size=4096"
+      - name: Run Cypress tests
+        run: |
+          mkdir -p cypress/reports
+          npm start & npx wait-on http://localhost:4200
+          npx cypress run --spec "cypress/e2e/{apiTest.spec.js,firstTest.spec.ts,testWithPageObject.ts}" --reporter cypress-mochawesome-reporter
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
 
-      - name: Debug - List Reports
+      - name: Debug Reports
         if: always()
         run: |
           echo "Listing reports directory:"
