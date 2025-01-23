@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -23,32 +26,22 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
-          npm install start-server-and-test wait-on --save-dev --legacy-peer-deps
-
-      - name: Build Angular app
-        run: |
-          npm run build
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
-
-      - name: Start Angular app
-        run: |
-          npm start & npx wait-on http://localhost:4200
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
+          npm install start-server-and-test --save-dev --legacy-peer-deps
 
       - name: Run Cypress tests
-        run: |
-          npm run cy:report
+        run: npm run test:e2e
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
 
-      - name: Upload test results
+      - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-reports
           path: cypress/reports
+          retention-days: 30
 
-      - name: Deploy report to GitHub Pages
+      - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
