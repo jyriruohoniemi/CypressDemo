@@ -31,16 +31,28 @@ jobs:
           npm install @faker-js/faker@7.6.0 --save-dev --legacy-peer-deps
 
       - name: Run Cypress tests
-        run: npm run test:e2e
+        run: |
+          mkdir -p cypress/reports/html
+          npm run test:e2e
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: Debug - List Reports
+        if: always()
+        run: |
+          echo "Listing reports directory:"
+          ls -la cypress/reports/
+          echo "Listing HTML reports:"
+          ls -la cypress/reports/html/
 
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-reports
-          path: cypress/reports
+          path: |
+            cypress/reports/**/*
+            cypress/reports/html/**/*
           retention-days: 30
 
       - name: Deploy to GitHub Pages
@@ -48,6 +60,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./cypress/reports/html
+          publish_dir: cypress/reports
+          enable_jekyll: false
           keep_files: false
           force_orphan: true
