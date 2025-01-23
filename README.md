@@ -1,5 +1,10 @@
-### Ngx-Admin Angular 8 application from akveo.com
+# Cypress Test Automation Demo
 
-This is modified and more lightweight version of original application to practice UI Automation with Cypress.
+![Cypress Tests](https://github.com/jyriruohoniemi/CypressDemo/actions/workflows/main.yml/badge.svg)
+Playwright Tests
 
-The original repo is here: https://github.com/akveo/ngx-admin
+## Test Results
+
+🎭📹[View Interactive Test Report and Videos](https://jyriruohoniemi.github.io/CypressDemo)
+
+This is modified and more lightweight version of the original Ngx-Admin Angular 14 application from akveo.com to practice UI Automation leveraging Cypress and Mocha for reporting.
