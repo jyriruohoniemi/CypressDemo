@@ -1,16 +1,19 @@
+import "../support/commands";
+import "cypress-mochawesome-reporter/register";
+
 /// <reference types="cypress" />
 
 // Simply put: You create suites under the 'describe' function.
 // You then create test cases under the 'describe' function using the 'it' function.
 // Using the anonymous arrow function
 
-describe("First test suite", () => {
+describe("Default Test Suite", () => {
   beforeEach(() => {
     cy.visit("http://localhost:4200/");
     cy.get("ngx-footer").should("have.text", "Created with ♥ by Akveo 2019");
   });
 
-  it("Lesson 1: First test case", () => {
+  it("First test case", () => {
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
 
@@ -41,7 +44,7 @@ describe("First test suite", () => {
     cy.get('input[placeholder="Email"]#inputEmail1.input-full-width');
   });
 
-  it("Lesson 2: Finding Elements", () => {
+  it("Finding Elements", () => {
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
 
@@ -67,7 +70,7 @@ describe("First test suite", () => {
       .click();
   });
 
-  it("Lesson 3: Saving Locators", () => {
+  it("Saving Locators", () => {
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
 
@@ -103,7 +106,7 @@ describe("First test suite", () => {
     // cy.wrap(usingTheGrid).find('[for="inputPassword2"]').should("contain", "Password");
   });
 
-  it("Lesson 4: Extractring Data", () => {
+  it("Extractring Data", () => {
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
 
@@ -147,7 +150,7 @@ describe("First test suite", () => {
       .should("contain", "test@test.com");
   });
 
-  it("Lesson 5: Interacting with Checkboxes and Radio Buttons", () => {
+  it("Interacting with Checkboxes and Radio Buttons", () => {
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
 
@@ -169,7 +172,7 @@ describe("First test suite", () => {
     cy.get('[type="checkbox"]').check({ force: true });
   });
 
-  it("Lesson 6: Interacting with Datepickers", () => {
+  it("Interacting with Datepickers", () => {
     cy.contains("Forms").click();
     cy.contains("Datepicker").click();
 
@@ -188,7 +191,7 @@ describe("First test suite", () => {
       .should("contain", formattedDate);
   });
 
-  it("Lesson 6.5: Datepicker with future date", () => {
+  it("Datepicker with future date", () => {
     cy.contains("Forms").click();
     cy.contains("Datepicker").click();
 
@@ -226,7 +229,7 @@ describe("First test suite", () => {
         cy.wrap(input).should("have.value", futureDate);
       });
   });
-  it("Lesson 7: Interacting with Dropdowns", () => {
+  it("Interacting with Dropdowns", () => {
     const dropdownOptions = ["Light", "Dark", "Cosmic", "Corporate"];
     cy.get(".select-button").click();
     for (let i = 0; i < dropdownOptions.length; i++) {
@@ -234,7 +237,7 @@ describe("First test suite", () => {
       cy.get(".select-button").click();
     }
   });
-  it("Lesson 8: Interacting with Web Tables", () => {
+  it("Interacting with Web Tables", () => {
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
     // Get row by text
@@ -281,7 +284,7 @@ describe("First test suite", () => {
       });
     });
   });
-  it.only("Lesson 9: Tooltips and Overlays", () => {
+  it("Tooltips and Overlays", () => {
     cy.contains("Modal & Overlay").click();
     cy.contains("Tooltip").click();
 
@@ -291,7 +294,8 @@ describe("First test suite", () => {
     // Alert overlay
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
-    cy.get(".nb-trash").click();
-    cy.on("window:confirm", () => false);
+    // Target first trash icon and handle alert
+    cy.get("tbody tr").first().find(".nb-trash").click();
+    cy.on("window:confirm", () => true); // Confirm deltion
   });
 });

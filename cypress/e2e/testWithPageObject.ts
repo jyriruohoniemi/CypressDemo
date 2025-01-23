@@ -1,4 +1,5 @@
-import { on } from "process";
+import "../support/commands";
+import "cypress-mochawesome-reporter/register";
 import { onDatePickerPage } from "../support/page_objects/datePickerPage";
 import { onFormLayoutPage } from "../support/page_objects/formLayoutPage";
 import { navigateTo } from "../support/page_objects/navigation";
