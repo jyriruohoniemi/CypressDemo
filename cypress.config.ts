@@ -3,15 +3,12 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
+    reportDir: "cypress/reports",
     charts: true,
     reportPageTitle: "Cypress Test Report",
     embeddedScreenshots: true,
     inlineAssets: true,
-    saveAllAttempts: false,
     overwrite: true,
-    html: true,
-    json: true,
-    reportDir: "cypress/reports",
   },
   e2e: {
     baseUrl: "http://localhost:4200",

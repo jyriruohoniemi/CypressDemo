@@ -30,29 +30,27 @@ jobs:
           npm install start-server-and-test --save-dev --legacy-peer-deps
           npm install @faker-js/faker@7.6.0 --save-dev --legacy-peer-deps
 
-      - name: Run Cypress tests
-        run: |
-          mkdir -p cypress/reports/html
-          npm run test:e2e
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
+          - name: Run Cypress tests
+          run: |
+            mkdir -p cypress/reports
+            npm run test:e2e
+          env:
+            NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Debug - List Reports
         if: always()
         run: |
           echo "Listing reports directory:"
           ls -la cypress/reports/
-          echo "Listing HTML reports:"
-          ls -la cypress/reports/html/
+          echo "Contents of reports directory:"
+          cat cypress/reports/index.html || true
 
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-reports
-          path: |
-            cypress/reports/**/*
-            cypress/reports/html/**/*
+          path: cypress/reports
           retention-days: 30
 
       - name: Deploy to GitHub Pages
@@ -62,5 +60,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: cypress/reports
           enable_jekyll: false
-          keep_files: false
           force_orphan: true
+
+      - name: Enable GitHub Pages
+        run: |
+          gh api \
+            --method PUT \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/pages \
+            -f source='{"branch":"gh-pages","path":"/"}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
