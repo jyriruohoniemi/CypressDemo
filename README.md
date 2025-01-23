@@ -1,7 +1,6 @@
 # Cypress Test Automation Demo
 
 ![Cypress Tests](https://github.com/jyriruohoniemi/CypressDemo/actions/workflows/main.yml/badge.svg)
-Playwright Tests
 
 ## Test Results
 
