@@ -9,7 +9,7 @@ import "cypress-mochawesome-reporter/register";
 
 describe("Default Test Suite", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:4200/");
+    cy.visit("/");
     cy.get("ngx-footer").should("have.text", "Created with ♥ by Akveo 2019");
   });
 
@@ -294,8 +294,7 @@ describe("Default Test Suite", () => {
     // Alert overlay
     cy.contains("Tables & Data").click();
     cy.contains("Smart Table").click();
-    // Target first trash icon and handle alert
-    cy.get("tbody tr").first().find(".nb-trash").click();
-    cy.on("window:confirm", () => true); // Confirm deltion
+    cy.get(".nb-trash").click();
+    cy.on("window:confirm", () => false);
   });
 });
